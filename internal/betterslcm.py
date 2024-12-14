@@ -9,7 +9,7 @@ URL = "https://mujslcm.jaipur.manipal.edu:122"
 
 
 def get_login_token():
-    res = requests.get(URL, headers=HEADERS, allow_redirects=False)
+    res = requests.get(URL, headers=HEADERS, allow_redirects=False, timeout=5)
     soup = BeautifulSoup(res.content, "html.parser")
 
     token = soup.find("input", {"name": "__RequestVerificationToken"})["value"]
@@ -31,7 +31,9 @@ def login(username, password):
         "Password": password,
     }
 
-    res = requests.post(URL, data=payload, headers=HEADERS, allow_redirects=False)
+    res = requests.post(
+        URL, data=payload, headers=HEADERS, allow_redirects=False, timeout=5
+    )
 
     if not res:
         return False
@@ -51,6 +53,7 @@ def get_attendance(cookie, asp_net_cookie):
         f"{URL}/Student/Academic/GetAttendanceSummaryList",
         headers=HEADERS,
         allow_redirects=False,
+        timeout=3,
         data={"StudentCode": ""},
     )
 
@@ -63,6 +66,7 @@ def get_cgpa(cookie, asp_net_cookie):
         f"{URL}/Student/Academic/GetCGPAGPAForFaculty",
         headers=HEADERS,
         allow_redirects=False,
+        timeout=3,
         data={"Enrollment": "", "AcademicYear": "", "ProgramCode": ""},
     )
 
@@ -75,6 +79,7 @@ def get_grades(cookie, asp_net_cookie, semester):
         f"{URL}/Student/Academic/GetGradesForFaculty",
         headers=HEADERS,
         allow_redirects=False,
+        timeout=3,
         data={"Enrollment": "", "Semester": toRoman(semester)},
     )
 
@@ -87,6 +92,7 @@ def get_internal_marks(cookie, asp_net_cookie, semester):
         f"{URL}/Student/Academic/GetInternalMarkForFaculty",
         headers=HEADERS,
         allow_redirects=False,
+        timeout=3,
         data={"Enrollment": "", "Semester": toRoman(semester)},
     )
 
