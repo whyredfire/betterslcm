@@ -13,13 +13,22 @@ def get_login_token():
     soup = BeautifulSoup(res.content, "html.parser")
 
     token = soup.find("input", {"name": "__RequestVerificationToken"})["value"]
-    cookie = res.headers.get("Set-Cookie").split(";")[0]
+
+    try:
+        cookie = res.headers.get("Set-Cookie").split(";")[0]
+    except AttributeError:
+        print(f"Failed to extract cookie from {URL}")
+        return False
 
     return token, cookie
 
 
 def login(username, password):
-    token, cookie = get_login_token()
+    res = get_login_token()
+    if not res:
+        return False
+
+    token, cookie = res[0], res[1]
 
     HEADERS["Cookie"] = cookie
 
@@ -41,7 +50,10 @@ def login(username, password):
         print(f"\nFailed to login as {username}.\n")
         return False
 
-    asp_net_cookie = res.headers.get("Set-Cookie").split(";")[0]
+    try:
+        asp_net_cookie = res.headers.get("Set-Cookie").split(";")[0]
+    except AttributeError:
+        print(f"\nFailed to log in as {username}")
 
     print(f"\nSuccesfully logged in as {username}.")
     return cookie, asp_net_cookie

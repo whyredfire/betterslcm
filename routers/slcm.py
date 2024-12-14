@@ -8,7 +8,11 @@ app = APIRouter()
 
 @app.post("/login")
 async def login(creds: Credentials, response: Response):
-    cookie, asp_net_cookie = betterslcm.login(creds.username, creds.password)
+    res = betterslcm.login(creds.username, creds.password)
+    if not res:
+        return False
+
+    cookie, asp_net_cookie = res[0], res[1]
 
     response.set_cookie(key="cookie", value=cookie)
     response.set_cookie(key="asp_net_cookie", value=asp_net_cookie)
