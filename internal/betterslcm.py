@@ -57,29 +57,46 @@ def login(username, password):
         print(f"\nFailed to log in as {username}")
 
     print(f"\nSuccesfully logged in as {username}.")
+    print(f"{cookie=} and {asp_net_cookie=}")
     return cookie, asp_net_cookie
 
 
 def get_attendance(cookie, asp_net_cookie):
-    headers = HEADERS.copy()
-    headers["Cookie"] = f"{cookie}; {asp_net_cookie}"
+    cookie = cookie.split("=")[1]
+    asp_net_cookie = asp_net_cookie.split("=")[1]
+
+    cookies = {
+        "__RequestVerificationToken": cookie,
+        "ASP.NET_SessionId": asp_net_cookie,
+    }
+
     res = requests.post(
         f"{URL}/Student/Academic/GetAttendanceSummaryList",
-        headers=headers,
+        headers=HEADERS,
+        cookies=cookies,
         allow_redirects=False,
         timeout=3,
         data={"StudentCode": ""},
     )
 
+    print(f"{res.cookies=}")
+
     return res.json()["AttendanceSummaryList"]
 
 
 def get_cgpa(cookie, asp_net_cookie):
-    headers = HEADERS.copy()
-    headers["Cookie"] = f"{cookie}; {asp_net_cookie}"
+    cookie = cookie.split("=")[1]
+    asp_net_cookie = asp_net_cookie.split("=")[1]
+
+    cookies = {
+        "__RequestVerificationToken": cookie,
+        "ASP.NET_SessionId": asp_net_cookie,
+    }
+
     res = requests.post(
         f"{URL}/Student/Academic/GetCGPAGPAForFaculty",
-        headers=headers,
+        headers=HEADERS,
+        cookies=cookies,
         allow_redirects=False,
         timeout=3,
         data={"Enrollment": "", "AcademicYear": "", "ProgramCode": ""},
@@ -89,11 +106,18 @@ def get_cgpa(cookie, asp_net_cookie):
 
 
 def get_grades(cookie, asp_net_cookie, semester):
-    headers = HEADERS.copy()
-    headers["Cookie"] = f"{cookie}; {asp_net_cookie}"
+    cookie = cookie.split("=")[1]
+    asp_net_cookie = asp_net_cookie.split("=")[1]
+
+    cookies = {
+        "__RequestVerificationToken": cookie,
+        "ASP.NET_SessionId": asp_net_cookie,
+    }
+
     res = requests.post(
         f"{URL}/Student/Academic/GetGradesForFaculty",
-        headers=headers,
+        headers=HEADERS,
+        cookies=cookies,
         allow_redirects=False,
         timeout=3,
         data={"Enrollment": "", "Semester": toRoman(semester)},
@@ -103,11 +127,18 @@ def get_grades(cookie, asp_net_cookie, semester):
 
 
 def get_internal_marks(cookie, asp_net_cookie, semester):
-    headers = HEADERS.copy()
-    headers["Cookie"] = f"{cookie}; {asp_net_cookie}"
+    cookie = cookie.split("=")[1]
+    asp_net_cookie = asp_net_cookie.split("=")[1]
+
+    cookies = {
+        "__RequestVerificationToken": cookie,
+        "ASP.NET_SessionId": asp_net_cookie,
+    }
+
     res = requests.post(
         f"{URL}/Student/Academic/GetInternalMarkForFaculty",
-        headers=headers,
+        headers=HEADERS,
+        cookies=cookies,
         allow_redirects=False,
         timeout=3,
         data={"Enrollment": "", "Semester": toRoman(semester)},
