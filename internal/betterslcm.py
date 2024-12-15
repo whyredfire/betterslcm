@@ -57,7 +57,6 @@ def login(username, password):
         print(f"\nFailed to log in as {username}")
 
     print(f"\nSuccesfully logged in as {username}.")
-    print(f"{cookie=} and {asp_net_cookie=}")
     return cookie, asp_net_cookie
 
 
