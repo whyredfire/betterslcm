@@ -19,7 +19,7 @@ async def login(creds: Credentials, response: Response):
     return {"message": "logged in"}
 
 
-@app.post("/attendance")
+@app.get("/attendance")
 async def attendance(request: Request):
     cookie = request.cookies.get("cookie")
     asp_net_cookie = request.cookies.get("asp_net_cookie")
@@ -27,7 +27,7 @@ async def attendance(request: Request):
     return betterslcm.get_attendance(cookie, asp_net_cookie)
 
 
-@app.post("/cgpa")
+@app.get("/cgpa")
 async def cgpa(request: Request):
     cookie = request.cookies.get("cookie")
     asp_net_cookie = request.cookies.get("asp_net_cookie")
@@ -35,7 +35,7 @@ async def cgpa(request: Request):
     return betterslcm.get_cgpa(cookie, asp_net_cookie)
 
 
-@app.post("/grades")
+@app.get("/grades")
 async def grades(request: Request, semester: int):
     cookie = request.cookies.get("cookie")
     asp_net_cookie = request.cookies.get("asp_net_cookie")
@@ -43,7 +43,7 @@ async def grades(request: Request, semester: int):
     return betterslcm.get_grades(cookie, asp_net_cookie, semester)
 
 
-@app.post("/internal_marks")
+@app.get("/internal_marks")
 async def internal_marks(request: Request, semester: int):
     cookie = request.cookies.get("cookie")
     asp_net_cookie = request.cookies.get("asp_net_cookie")
