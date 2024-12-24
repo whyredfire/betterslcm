@@ -30,8 +30,10 @@ def login(username, password):
 
     token, cookie = res[0], res[1]
 
-    headers = HEADERS.copy()
-    headers["Cookie"] = cookie
+    cookie = cookie.split("=")[1]
+    cookies = {
+        "__RequestVerificationToken": cookie,
+    }
 
     payload = {
         "__RequestVerificationToken": token,
@@ -42,7 +44,12 @@ def login(username, password):
     }
 
     res = requests.post(
-        LOGIN_URL, data=payload, headers=headers, allow_redirects=False, timeout=5
+        LOGIN_URL,
+        data=payload,
+        headers=HEADERS,
+        cookies=cookies,
+        allow_redirects=False,
+        timeout=5,
     )
 
     if not res:
@@ -52,7 +59,7 @@ def login(username, password):
         return False
 
     try:
-        asp_net_cookie = res.headers.get("Set-Cookie").split(";")[0]
+        asp_net_cookie = res.headers.get("Set-Cookie").split(";")[0].split("=")[1]
     except AttributeError:
         print(f"\nFailed to log in as {username}")
 
@@ -61,9 +68,6 @@ def login(username, password):
 
 
 def _send_request(cookie, asp_net_cookie, URL, payload, timeout=3):
-    cookie = cookie.split("=")[1]
-    asp_net_cookie = asp_net_cookie.split("=")[1]
-
     cookies = {
         "__RequestVerificationToken": cookie,
         "ASP.NET_SessionId": asp_net_cookie,
