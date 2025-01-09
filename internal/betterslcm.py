@@ -67,6 +67,23 @@ def login(username, password):
     return cookie, asp_net_cookie
 
 
+def logout(cookie, asp_net_cookie):
+    cookies = {
+        "__RequestVerificationToken": cookie,
+        "ASP.NET_SessionId": asp_net_cookie,
+    }
+
+    response = requests.get(
+        f"{LOGIN_URL}/Home/Logout",
+        headers=HEADERS,
+        cookies=cookies,
+        allow_redirects=False,
+        timeout=3,
+    )
+
+    return True
+
+
 def _send_request(cookie, asp_net_cookie, URL, payload, timeout=3):
     cookies = {
         "__RequestVerificationToken": cookie,

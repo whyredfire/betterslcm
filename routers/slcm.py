@@ -19,6 +19,14 @@ async def login(creds: Credentials, response: Response):
     return {"message": "logged in"}
 
 
+@app.get("/logout")
+async def logout(request: Request):
+    cookie = request.cookies.get("cookie")
+    asp_net_cookie = request.cookies.get("asp_net_cookie")
+
+    return betterslcm.logout(cookie, asp_net_cookie)
+
+
 @app.get("/attendance")
 async def attendance(request: Request):
     cookie = request.cookies.get("cookie")
