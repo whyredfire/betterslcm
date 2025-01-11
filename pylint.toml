@@ -11,12 +11,12 @@ disable = [
     'use-symbolic-message-instead',
     'use-implicit-booleaness-not-comparison-to-string',
     'use-implicit-booleaness-not-comparison-to-zero',
-
     'invalid-name',
     'line-too-long',
     'missing-class-docstring',
     'missing-function-docstring',
     'missing-module-docstring',
+    'missing-timeout',
     'too-few-public-methods',
     'too-many-branches',
     'too-many-arguments',
