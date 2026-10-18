@@ -1,263 +1,31 @@
-# **betterslcm**
+# betterslcm
 
-### **Info**
+> **This project is archived** and no longer maintained. Development continues in the upstream project, [SLCM_APP](https://github.com/DK10WS/SLCM_APP/tree/web) (`web` branch).
 
-- **Version**: 0.1.0
+An unofficial FastAPI wrapper around the MUJ SLCM student portal. It logs in with a student's portal credentials and returns attendance, CGPA, grades and internal marks as JSON.
 
----
+## Endpoints
 
-### **Paths**
+| Method | Path | Description |
+| --- | --- | --- |
+| `POST` | `/login` | Log in with `username` and `password` |
+| `GET` | `/logout` | Log out |
+| `GET` | `/attendance` | Attendance |
+| `GET` | `/cgpa` | CGPA |
+| `GET` | `/grades` | Grades |
+| `GET` | `/internal_marks` | Internal marks |
+| `GET` | `/status` | Health check |
 
-### /
+FastAPI also serves interactive docs at `/docs`.
 
-**GET**
+## Running
 
-**Summary**: Redirect
-
-**[ Responses ]**
-
-code: 200
-
-description: Successful Response
-
-- application/json:
-
-### /status
-
-**GET**
-
-**Summary**: Status
-
-**[ Responses ]**
-
-code: 200
-
-description: Successful Response
-
-- application/json:
-
-### /login
-
-**POST**
-
-**Summary**: Login
-
-**[ Request Body ]** \*
-
-- application/json:
-
-  - $schema: Credentials
-
-**Example Value**:
-
-```json
-{
-    "username" : string,
-    "password" : string
-}
+```bash
+docker compose up
 ```
 
-**[ Responses ]**
+The API is then available at `http://localhost:8000`.
 
-code: 200
+## License
 
-description: Successful Response
-
-- application/json:
-
-code: 422
-
-description: Validation Error
-
-- application/json:
-
-  - $schema: HTTPValidationError
-
-**Example Value**:
-
-```json
-{
-    "detail" : [
-        {
-            "loc" : [
-            ],
-            "msg" : string,
-            "type" : string
-        }
-    ]
-}
-```
-
-### /attendance
-
-**GET**
-
-**Summary**: Attendance
-
-**[ Responses ]**
-
-code: 200
-
-description: Successful Response
-
-- application/json:
-
-### /cgpa
-
-**GET**
-
-**Summary**: Cgpa
-
-**[ Responses ]**
-
-code: 200
-
-description: Successful Response
-
-- application/json:
-
-### /grades
-
-**GET**
-
-**Summary**: Grades
-
-**[ Parameters ]**
-
-| name     |  in   | description |  type   | required |
-| :------- | :---: | :---------- | :-----: | :------: |
-| semester | query |             | integer |    \*    |
-
-**[ Responses ]**
-
-code: 200
-
-description: Successful Response
-
-- application/json:
-
-code: 422
-
-description: Validation Error
-
-- application/json:
-
-  - $schema: HTTPValidationError
-
-**Example Value**:
-
-```json
-{
-    "detail" : [
-        {
-            "loc" : [
-            ],
-            "msg" : string,
-            "type" : string
-        }
-    ]
-}
-```
-
-### /internal_marks
-
-**GET**
-
-**Summary**: Internal Marks
-
-**[ Parameters ]**
-
-| name     |  in   | description |  type   | required |
-| :------- | :---: | :---------- | :-----: | :------: |
-| semester | query |             | integer |    \*    |
-
-**[ Responses ]**
-
-code: 200
-
-description: Successful Response
-
-- application/json:
-
-code: 422
-
-description: Validation Error
-
-- application/json:
-
-  - $schema: HTTPValidationError
-
-**Example Value**:
-
-```json
-{
-    "detail" : [
-        {
-            "loc" : [
-            ],
-            "msg" : string,
-            "type" : string
-        }
-    ]
-}
-```
-
----
-
-### **Components**
-
-### Schemas
-
-**Credentials**
-
-**username**:
-
-- **string**
-
-  - _required: true_
-
-  - _nullable: false_
-
-**password**:
-
-- **string**
-
-  - _required: true_
-
-  - _nullable: false_
-
-**HTTPValidationError**
-
-**detail**:
-
-- **array [ ValidationError ]**
-
-  - _required: false_
-
-  - _nullable: false_
-
-**ValidationError**
-
-**loc**:
-
-    - _required: true_
-
-    - _nullable: false_
-
-**msg**:
-
-- **string**
-
-  - _required: true_
-
-  - _nullable: false_
-
-**type**:
-
-- **string**
-
-  - _required: true_
-
-  - _nullable: false_
-
----
+Released under the [MIT License](LICENSE).
